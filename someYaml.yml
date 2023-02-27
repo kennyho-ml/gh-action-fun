@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: acct-mgmt
+patchesStrategicMerge:
+- secrets.patch.yaml
+configMapGenerator:
+- name: cc-api-orc-apollo-configmap
+  behavior: merge
+  literals:
+  - APOLLO_GRAPH_VARIANT=current
+  - BUGSNAG_RELEASE_STAGE=production
+  - KATABAT_BASE_URL=https://mll.katabat.com/flexSiteSso?portfolioId=235001&token=
+  - MMP_SOURCE_ID_3R=f1eee4bb-0878-4c5d-bb61-b321fda3caf6
+  - THREE_DS_RETURN_URL=https://dashboard.missionlane.com/make-card-payment-confirmed
+commonAnnotations:
+  missionlane.com/asana-board: https://app.asana.com/0/1201626037666341/board
+  missionlane.com/eng-team: eecb
+  missionlane.com/repo: https://github.com/missionlane/cc-api-orc-apollo
+  missionlane.com/resiliency-tier: '0'
+  missionlane.com/resiliency-impact: customer
+  missionlane.com/slo: '99.99'
+resources:
+- ../base
+- github-actions.yaml
+images:
+- name: app
+  newName: docker.pennywise.cc/engineering/acct-mgmt-graphql
+  newTag: 20230217T213029-a6b152e
+helmCharts:
+- name: ml-service
+  valuesFile: values.yaml
+  releaseName: cc-api-orc-apollo
+  version: 3.12.1
+  namespace: acct-mgmt
+  repo: https://helm.internal.gcp.pennywise.cc/artifactory/helm
