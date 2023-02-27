@@ -24,8 +24,9 @@ jobs:
         with:
           valueFile: 'someYaml.yml'
           propertyPath: 'images.newTag'
-          value: v1.0.1
-          commitChange: false
+          branch: development
+          value: 'v2.0'
+          commitChange: true
           targetBranch: main
           createPR: true
         
