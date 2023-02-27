@@ -12,3 +12,7 @@ jobs:
       uses: repo-sync/pull-request@v2
       with:
         destination_branch: "main"
+        pr_title: "Release"
+        pr_reviewer: "kennyho-ml"
+        pr_allow_empty: true
+        
