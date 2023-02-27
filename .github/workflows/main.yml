@@ -15,4 +15,17 @@ jobs:
         pr_title: "Release"
         pr_reviewer: "kennyho-ml"
         pr_allow_empty: true
+  test-update-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'someYaml.yml'
+          propertyPath: 'images.newTag'
+          value: v1.0.1
+          commitChange: false
+          targetBranch: main
+          createPR: true
         
